@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Phone, MessageSquare, BarChart3, Bell, Check, ArrowRight, Calendar, Users, Clock, Star } from "lucide-react"
 import Link from "next/link"
-import { Navbar } from "@/components/ui/navbar"
 import { RetroGrid } from "@/components/ui/retro-grid";
 
 export default function HomePage() {

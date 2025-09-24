@@ -154,19 +154,7 @@ export function Navbar() {
                 Contact
               </Link>
               <div className="flex flex-col space-y-3 px-3 pt-4">
-                <Link href="/login">
-                  <Button
-                    variant="outline"
-                    className="w-full bg-white/10 border-[#FF00E0]/50 text-[#FF00E0] hover:bg-[#FF00E0] hover:text-white hover:border-[#FF00E0] rounded-full backdrop-blur-sm transition-all duration-300"
-                  >
-                    Login
-                  </Button>
-                </Link>
-                <Link href="/signup">
-                  <Button className="w-full bg-[#FF00E0] hover:bg-[#FF8AF1] hover:text-black text-white rounded-full shadow-lg">
-                    Sign Up
-                  </Button>
-                </Link>
+                <UserMenu/>
               </div>
             </div>
           </div>

@@ -24,30 +24,37 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
 
   return (
     <>
-      <RetroGrid />
+      <div className="fixed inset-0 ">
+        <RetroGrid />
+      </div>
 
       <div className="min-h-screen relative z-10 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="absolute top-8 left-8">
-          <Link href="/">
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-pink-d100b9/50 text-pink-d100b9 hover:bg-pink-d100b9 hover:text-white hover:border-pink-d100b9 rounded-full bg-white/80 backdrop-blur-sm transition-all duration-300"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-        </div>
+        
 
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden">
             <CardHeader className="text-center px-8 pt-12 pb-8">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-d100b9 to-pink-a30090 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-2xl font-bold text-white">M</span>
+              <div>
+                
+                <div className="flex justify-center mb-6">
+                  <div className="absolute top-8 left-8">
+                    <Link href="/">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-[#FF00E0] text-[#FF00E0] hover:bg-[#FF00E0] hover:text-white hover:border-[#FFB8F7] rounded-2xl bg-[#FFB8F7]/80 backdrop-blur-sm transition-all duration-300"
+                      >
+                        <ArrowLeft className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                 
+                  <div className="w-32 h-16 bg-[#FF00E0] rounded-2xl flex items-center justify-center shadow-lg">
+                    <span className="text-2xl font-bold text-white">MUNDI-AI</span>
+                  </div>
                 </div>
               </div>
+              
 
               <CardTitle className="text-3xl font-bold text-gray-900 mb-2">
                 {mode === "signin" ? "Welcome back" : "Create your account"}
@@ -58,13 +65,15 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                   ? "Sign in to access your AI booking dashboard"
                   : "Join thousands of businesses using AI for bookings"}
               </p>
-
-              <Badge
-                variant="secondary"
-                className="mt-4 text-sm font-medium bg-pink-ffe6fc text-pink-a30090 border-pink-d100b9/20"
-              >
-                AI-Powered Platform
-              </Badge>
+                <div className="justify-items-center">
+                  <Badge
+                    variant="secondary"
+                    className="mt-4 text-sm font-medium bg-[#FF2EE7] items-center justify-center text-white border-[#FF00E0]/20"
+                  >
+                    AI-Powered Platform
+                  </Badge>
+                </div>
+              
             </CardHeader>
 
             <CardContent className="px-8 pb-12">
@@ -117,7 +126,7 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                 <div>
                   <Button
                     type="submit"
-                    className="w-full py-3 px-4 bg-gradient-to-r from-pink-d100b9 to-pink-a30090 hover:from-pink-a30090 hover:to-pink-d100b9 text-white rounded-2xl shadow-lg hover:shadow-pink-d100b9/30 transition-all duration-300 font-medium text-lg"
+                    className="w-full bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 px-6 py-2 rounded-2xl shadow-lg hover:shadow-pink-d100b9/30 transition-all duration-300 font-medium text-lg"
                     disabled={pending}
                   >
                     {pending ? (
@@ -141,7 +150,7 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                   </div>
                   <div className="relative flex justify-center text-sm">
                     <span className="px-4 bg-white text-gray-500">
-                      {mode === "signin" ? "New to Mundi-ai?" : "Already have an account?"}
+                      {mode === "signin" ? "New to MUNDI-AI?" : "Already have an account?"}
                     </span>
                   </div>
                 </div>
@@ -151,7 +160,7 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                     href={`${mode === "signin" ? "/sign-up" : "/sign-in"}${
                       redirect ? `?redirect=${redirect}` : ""
                     }${priceId ? `&priceId=${priceId}` : ""}`}
-                    className="w-full flex justify-center py-3 px-4 border border-pink-d100b9/30 rounded-2xl shadow-sm text-lg font-medium text-pink-d100b9 bg-white/50 backdrop-blur-sm hover:bg-pink-d100b9/5 hover:border-pink-d100b9 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-d100b9 transition-all duration-300"
+                    className="w-full flex justify-center bg-white text-[#FF00E0]  hover:bg-[#FFE6FC]/90 border border-[#FF00E0]/30 hover:border-[#FF00E0] text-lg  shadow-lg hover:shadow-[#FF00E0]/30 transition-all duration-300 font-medium   rounded-2xl"
                   >
                     {mode === "signin" ? "Create an account" : "Sign in to existing account"}
                   </Link>
