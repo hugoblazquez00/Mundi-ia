@@ -1,130 +1,411 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight, CreditCard, Database } from 'lucide-react';
-import { Terminal } from './terminal';
+"use client"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Phone, MessageSquare, BarChart3, Bell, Check, ArrowRight, Calendar, Users, Clock, Star } from "lucide-react"
+import Link from "next/link"
+import { Navbar } from "@/components/ui/navbar"
+import { RetroGrid } from "@/components/ui/retro-grid";
 
 export default function HomePage() {
   return (
-    <main>
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                Build Your SaaS
-                <span className="block text-orange-500">Faster Than Ever</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Launch your SaaS product in record time with our powerful,
-                ready-to-use template. Packed with modern technologies and
-                essential integrations.
-              </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <a
-                  href="https://vercel.com/templates/next.js/next-js-saas-starter"
-                  target="_blank"
-                >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-lg rounded-full"
-                  >
-                    Deploy your own
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </a>
-              </div>
-            </div>
-            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <Terminal />
-            </div>
+    <>
+      <div className="fixed inset-0 ">
+        <RetroGrid />
+      </div>
+
+      <div className="min-h-screen relative z-10">
+    
+        <div className="pt-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+              {/* <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden backdrop-blur-2xl mb-12">
+               
+                
+              </Card> */}
+              <section className="relative bg-gradient-to-br from-pink-d100b9/10 via-pink-a30090/5 to-pink-ff2ee7/10 px-8 py-16 lg:py-24 overflow-hidden  mb-12">
+                  <div className="text-center max-w-4xl mx-auto">
+                    <Badge
+                      variant="secondary"
+                      className="mb-6 text-sm font-medium bg-[#FFE6FC] text-[#FF00E1] border-[#FF00E1]/80"
+                    >
+                      AI-Powered Booking Management
+                    </Badge>
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-balance mb-6 text-gray-900">
+                      Revolutionize Your Bookings with AI
+                    </h1>
+                    <p className="text-xl sm:text-2xl text-gray-600 text-pretty mb-8 max-w-3xl mx-auto">
+                      Let AI handle your phone calls and WhatsApp messages while you focus on serving customers. Perfect
+                      for restaurants, salons, hotels, and small businesses.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      <Button
+                        size="lg"
+                        className="text-lg px-8 py-3  bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 rounded-full transition-all duration-300 font-medium"
+                      >
+                        Start Free Trial
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="text-lg px-8 py-3 border-pink-d100b9/50 text-pink-d100b9 hover:bg-pink-d100b9 hover:text-white hover:border-pink-d100b9 bg-white/80 backdrop-blur-sm rounded-full transition-all duration-300"
+                      >
+                        Book a Demo
+                      </Button>
+                    </div>
+                  </div>
+                </section>
+              <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden mb-12">
+                {/* Features Section */}
+                <section id="features" className="px-8 py-16">
+                  <div className="text-center mb-16">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                      Everything You Need to Manage Bookings
+                    </h2>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                      Our AI-powered platform handles every aspect of booking management, so you can focus on what matters
+                      most.
+                    </p>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <Card className="text-center hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <CardHeader>
+                        <div className="mx-auto w-12 h-12 bg-pink-d100b9/10 rounded-lg flex items-center justify-center mb-4">
+                          <Phone className="h-6 w-6 text-pink-d100b9" />
+                        </div>
+                        <CardTitle className="text-xl text-gray-900">AI Phone Agent</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-base text-gray-600">
+                          AI answers calls 24/7, takes bookings, and handles customer inquiries with natural conversation.
+                        </CardDescription>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="text-center hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <CardHeader>
+                        <div className="mx-auto w-12 h-12 bg-pink-ff5cec/10 rounded-lg flex items-center justify-center mb-4">
+                          <MessageSquare className="h-6 w-6 text-pink-ff5cec" />
+                        </div>
+                        <CardTitle className="text-xl text-gray-900">WhatsApp Integration</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-base text-gray-600">
+                          Customers can book, modify, and cancel bookings directly through WhatsApp messaging.
+                        </CardDescription>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="text-center hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <CardHeader>
+                        <div className="mx-auto w-12 h-12 bg-pink-d100b9/10 rounded-lg flex items-center justify-center mb-4">
+                          <BarChart3 className="h-6 w-6 text-pink-d100b9" />
+                        </div>
+                        <CardTitle className="text-xl text-gray-900">Real-time Dashboard</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-base text-gray-600">
+                          Monitor occupancy rates, table status, and booking trends with live analytics and insights.
+                        </CardDescription>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="text-center hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <CardHeader>
+                        <div className="mx-auto w-12 h-12 bg-pink-ff5cec/10 rounded-lg flex items-center justify-center mb-4">
+                          <Bell className="h-6 w-6 text-pink-ff5cec" />
+                        </div>
+                        <CardTitle className="text-xl text-gray-900">Smart Notifications</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-base text-gray-600">
+                          Automated confirmations, reminders, and follow-ups keep customers informed and reduce no-shows.
+                        </CardDescription>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </section>  
+              </Card>
+              
+              <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden mb-12">
+                {/* Demo Section */}
+                <section id="demo" className="px-8 py-16 bg-gray-50/50">
+                  <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                    <div>
+                      <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">See Your Dashboard in Action</h2>
+                      <p className="text-xl text-gray-600 mb-8">
+                        Get a complete view of your business with real-time occupancy tracking, booking management, and
+                        customer insights all in one place.
+                      </p>
+
+                      <div className="space-y-4 mb-8">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-pink-d100b9 rounded-full"></div>
+                          <span className="text-gray-900">Live table status and availability</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-pink-ff5cec rounded-full"></div>
+                          <span className="text-gray-900">Customer preferences and history</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-pink-d100b9 rounded-full"></div>
+                          <span className="text-gray-900">Revenue and performance analytics</span>
+                        </div>
+                      </div>
+
+                      <Button
+                        size="lg"
+                        className="bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0rounded-full shadow-lg hover:shadow-pink-d100b9/30 transition-all duration-300 font-medium"
+                      >
+                        Schedule a Demo
+                        <Calendar className="ml-2 h-5 w-5" />
+                      </Button>
+                    </div>
+
+                    <div className="mt-12 lg:mt-0">
+                      <div className="relative">
+                        <div className="bg-card border rounded-lg p-6 shadow-xl">
+                          <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-lg font-semibold">Today's Overview</h3>
+                            <Badge variant="secondary">Live</Badge>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className="text-center p-4 bg-muted/50 rounded-lg">
+                              <div className="text-2xl font-bold text-pink-d100b9">85%</div>
+                              <div className="text-sm text-muted-foreground">Occupancy</div>
+                            </div>
+                            <div className="text-center p-4 bg-muted/50 rounded-lg">
+                              <div className="text-2xl font-bold text-pink-ff5cec">24</div>
+                              <div className="text-sm text-muted-foreground">Bookings</div>
+                            </div>
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-muted/30 rounded">
+                              <div className="flex items-center gap-3">
+                                <Users className="h-4 w-4 text-muted-foreground" />
+                                <span className="text-sm">Table 5 - Johnson Party</span>
+                              </div>
+                              <Badge variant="outline">Seated</Badge>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-muted/30 rounded">
+                              <div className="flex items-center gap-3">
+                                <Clock className="h-4 w-4 text-muted-foreground" />
+                                <span className="text-sm">Table 2 - Smith Booking</span>
+                              </div>
+                              <Badge variant="secondary">7:30 PM</Badge>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>  
+              </Card>
+              
+              <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden mb-12">
+                {/* Pricing Section */}
+                <section id="pricing" className="px-8 py-16">
+                  <div className="text-center mb-16">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
+                    <p className="text-xl text-gray-600">Choose the plan that fits your business size and needs</p>
+                  </div>
+
+                  <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    {/* Starter Plan */}
+                    <Card className="relative bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <CardHeader className="text-center">
+                        <CardTitle className="text-2xl text-gray-900">Starter</CardTitle>
+                        <CardDescription className="text-gray-600">Perfect for small businesses</CardDescription>
+                        <div className="mt-4">
+                          <span className="text-4xl font-bold">$49</span>
+                          <span className="text-muted-foreground">/month</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Up to 100 bookings/month</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">AI phone agent</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">WhatsApp integration</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Basic dashboard</span>
+                        </div>
+                        <Button className="w-full mt-6 bg-transparent" variant="outline">
+                          Start Free Trial
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    {/* Pro Plan */}
+                    <Card className="relative border-pink-d100b9 shadow-lg bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <Badge className="bg-pink-d100b9 text-white">Most Popular</Badge>
+                      </div>
+                      <CardHeader className="text-center">
+                        <CardTitle className="text-2xl text-gray-900">Pro</CardTitle>
+                        <CardDescription className="text-gray-600">For growing restaurants & salons</CardDescription>
+                        <div className="mt-4">
+                          <span className="text-4xl font-bold">$99</span>
+                          <span className="text-muted-foreground">/month</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Up to 500 bookings/month</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Advanced AI features</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Full dashboard & analytics</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Customer preferences tracking</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Priority support</span>
+                        </div>
+                        <Button className="w-full mt-6 bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 rounded-full shadow-lg hover:shadow-pink-d100b9/30 transition-all duration-300 font-medium">
+                          Start Free Trial
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    {/* Business Plan */}
+                    <Card className="relative bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
+                      <CardHeader className="text-center">
+                        <CardTitle className="text-2xl text-gray-900">Business</CardTitle>
+                        <CardDescription className="text-gray-600">For multi-location businesses</CardDescription>
+                        <div className="mt-4">
+                          <span className="text-4xl font-bold">$199</span>
+                          <span className="text-muted-foreground">/month</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Unlimited bookings</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Multi-location management</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Custom AI training</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Advanced reporting</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">Dedicated account manager</span>
+                        </div>
+                        <Button className="w-full mt-6 bg-transparent" variant="outline">
+                          Contact Sales
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </section>
+              </Card>
+              <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden mb-12">
+                {/* CTA Section */}
+              <section className="px-8 py-16 bg-gradient-to-r from-pink-d100b9/10 to-pink-ff2ee7/10 rounded-b-3xl">
+                <div className="max-w-4xl mx-auto text-center">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900">
+                    Ready to Transform Your Booking Management?
+                  </h2>
+                  <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Join hundreds of businesses already using AI to streamline their bookings and improve customer
+                    experience.
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                    <Button
+                      size="lg"
+                      className="text-lg px-8 py-3 bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 rounded-full shadow-lg hover:shadow-pink-d100b9/30 transition-all duration-300 font-medium"
+                    >
+                      Start Your Free Trial
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="text-lg px-8 py-3 bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 backdrop-blur-sm rounded-full transition-all duration-300"
+                    >
+                      Schedule a Demo
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 fill-current text-pink-d100b9" />
+                      <span>No setup fees</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 fill-current text-pink-d100b9" />
+                      <span>14-day free trial</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 fill-current text-pink-d100b9" />
+                      <span>Cancel anytime</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+                </Card>
+              
+            
           </div>
         </div>
-      </section>
 
-      <section className="py-16 bg-white w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-            <div>
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <svg viewBox="0 0 24 24" className="h-6 w-6">
-                  <path
-                    fill="currentColor"
-                    d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"
-                  />
-                </svg>
+        {/* Footer outside the main card */}
+        <footer className="relative z-10 py-12 mt-8">
+          <div className="max-w-6xl mx-auto px-8">
+            <Card className="bg-white/80 backdrop-blur-xl border-white/20 shadow-lg rounded-2xl p-8">
+              <div className="flex flex-col md:flex-row justify-between items-center">
+                <div className="mb-4 md:mb-0">
+                  <h3 className="text-lg font-semibold text-pink-d100b9">Mundi-ai</h3>
+                  <p className="text-gray-600">AI-powered booking management</p>
+                </div>
+                <div className="flex gap-4">
+                  <Link href="/sign-in">
+                    <Button
+                      variant="outline"
+                      className="border-pink-d100b9/50 text-pink-d100b9 hover:bg-pink-d100b9 hover:text-white hover:border-pink-d100b9 rounded-full bg-white/80 backdrop-blur-sm transition-all duration-300"
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/sign-up">
+                    <Button className="bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 rounded-full shadow-lg font-medium">
+                      Get Started
+                    </Button>
+                  </Link>
+                </div>
               </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Next.js and React
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Leverage the power of modern web technologies for optimal
-                  performance and developer experience.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <Database className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Postgres and Drizzle ORM
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Robust database solution with an intuitive ORM for efficient
-                  data management and scalability.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <CreditCard className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Stripe Integration
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Seamless payment processing and subscription management with
-                  industry-leading Stripe integration.
-                </p>
-              </div>
-            </div>
+            </Card>
           </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Ready to launch your SaaS?
-              </h2>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Our template provides everything you need to get your SaaS up
-                and running quickly. Don't waste time on boilerplate - focus on
-                what makes your product unique.
-              </p>
-            </div>
-            <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
-              <a href="https://github.com/nextjs/saas-starter" target="_blank">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg rounded-full"
-                >
-                  View the code
-                  <ArrowRight className="ml-3 h-6 w-6" />
-                </Button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+        </footer>
+      </div>
+    </>
+  )
 }
