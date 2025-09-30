@@ -29,13 +29,10 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
       </div>
 
       <div className="min-h-screen relative z-10 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-        
-
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden">
             <CardHeader className="text-center px-8 pt-12 pb-8">
               <div>
-                
                 <div className="flex justify-center mb-6">
                   <div className="absolute top-8 left-8">
                     <Link href="/">
@@ -48,18 +45,14 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                       </Button>
                     </Link>
                   </div>
-                 
                   <div className="w-32 h-16 bg-[#FF00E0] rounded-2xl flex items-center justify-center shadow-lg">
                     <span className="text-2xl font-bold text-white">MUNDI-AI</span>
                   </div>
                 </div>
               </div>
-              
-
               <CardTitle className="text-3xl font-bold text-gray-900 mb-2">
                 {mode === "signin" ? "Welcome back" : "Create your account"}
               </CardTitle>
-
               <p className="text-gray-600">
                 {mode === "signin"
                   ? "Sign in to access your AI booking dashboard"
@@ -73,7 +66,6 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                     AI-Powered Platform
                   </Badge>
                 </div>
-              
             </CardHeader>
 
             <CardContent className="px-8 pb-12">

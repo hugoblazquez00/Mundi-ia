@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Phone, MessageSquare, BarChart3, Bell, Check, ArrowRight, Calendar, Users, Clock, Star } from "lucide-react"
 import Link from "next/link"
 import { RetroGrid } from "@/components/ui/retro-grid";
+import { Navbar } from '@/components/ui/navbar';
 
 export default function HomePage() {
   return (
@@ -14,14 +15,10 @@ export default function HomePage() {
       </div>
 
       <div className="min-h-screen relative z-10">
-    
+      <Navbar/>
         <div className="pt-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
-              {/* <Card className="bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl overflow-hidden backdrop-blur-2xl mb-12">
-               
-                
-              </Card> */}
-              <section className="relative bg-gradient-to-br from-pink-d100b9/10 via-pink-a30090/5 to-pink-ff2ee7/10 px-8 py-16 lg:py-24 overflow-hidden  mb-12">
+              <section className="relative bg-gradient-to-br from-pink-d100b9/10 via-pink-a30090/5 to-pink-ff2ee7/10 px-8 py-18 lg:py-24 overflow-hidden  mb-16">
                   <div className="text-center max-w-4xl mx-auto">
                     <Badge
                       variant="secondary"
@@ -382,7 +379,7 @@ export default function HomePage() {
             <Card className="bg-white/80 backdrop-blur-xl border-white/20 shadow-lg rounded-2xl p-8">
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="mb-4 md:mb-0">
-                  <h3 className="text-lg font-semibold text-pink-d100b9">Mundi-ai</h3>
+                  <h3 className="text-lg font-semibold text-pink-d100b9">MUNDI-AI</h3>
                   <p className="text-gray-600">AI-powered booking management</p>
                 </div>
                 <div className="flex gap-4">

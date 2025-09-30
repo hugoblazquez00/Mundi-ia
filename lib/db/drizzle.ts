@@ -1,13 +1,13 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 
-dotenv.config();
+config({ path: '.env.local' }); 
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+if (!process.env.SUPABASE_DB_URL) {
   throw new Error('POSTGRES_URL environment variable is not set');
 }
 
-export const client = postgres(process.env.NEXT_PUBLIC_SUPABASE_URL);
+export const client = postgres(process.env.SUPABASE_DB_URL , { prepare: false });
 export const db = drizzle(client, { schema });
