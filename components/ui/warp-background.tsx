@@ -22,22 +22,22 @@ const Beam = ({
   delay,
   duration,
   color,
+  aspectRatio,
 }: {
   width: string | number;
   x: string | number;
   delay: number;
   duration: number;
   color: string;
+  aspectRatio: number;
 }) => {
-  const ar = Math.floor(Math.random() * 10) + 1;
-
   return (
     <motion.div
       style={
         {
           "--x": `${x}`,
           "--width": `${width}`,
-          "--aspect-ratio": `${ar}`,
+          "--aspect-ratio": `${aspectRatio}`,
           "--background": `linear-gradient(${color}, transparent)`,
         } as React.CSSProperties
       }
@@ -88,7 +88,36 @@ export const WarpBackground: React.FC<WarpBackgroundProps> = ({
 
   const palette = beamColors && beamColors.length > 0
     ? beamColors
-    : ["hsl(270 80% 60%)", "hsl(200 80% 60%)", "hsl(320 80% 60%)", "hsl(30 90% 60%)"]; // sensible defaults
+    : ["hsl(270 80% 60%)", "hsl(200 80% 60%)", "hsl(320 80% 60%)", "hsl(30 90% 60%)"];
+
+  // Generar valores determinísticos para aspectRatio y colores
+  const generateBeamProps = useCallback((beams: typeof topBeams, side: string) => {
+    return beams.map((beam, index) => {
+      // Usar un seed determinístico basado en el índice y el lado
+      const seed = `${side}-${index}`;
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        const char = seed.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      // Generar valores pseudo-aleatorios determinísticos
+      const normalizedHash = Math.abs(hash) / 2147483647;
+      const aspectRatio = Math.floor(normalizedHash * 10) + 1;
+      const colorIndex = Math.floor(normalizedHash * palette.length);
+      
+      return {
+        ...beam,
+        aspectRatio,
+        color: palette[colorIndex],
+      };
+    });
+  }, [palette]);
+
+  const topBeamsWithProps = useMemo(() => generateBeamProps(topBeams, 'top'), [topBeams, generateBeamProps]);
+  const rightBeamsWithProps = useMemo(() => generateBeamProps(rightBeams, 'right'), [rightBeams, generateBeamProps]);
+  const bottomBeamsWithProps = useMemo(() => generateBeamProps(bottomBeams, 'bottom'), [bottomBeams, generateBeamProps]);
+  const leftBeamsWithProps = useMemo(() => generateBeamProps(leftBeams, 'left'), [leftBeams, generateBeamProps]);
 
   return (
     <div className={cn("relative rounded border p-20", className)} {...props}>
@@ -106,53 +135,57 @@ export const WarpBackground: React.FC<WarpBackgroundProps> = ({
       >
         {/* top side */}
         <div className="absolute z-20 [transform-style:preserve-3d] [background-size:var(--beam-size)_var(--beam-size)] [background:linear-gradient(var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_-0.5px_/var(--beam-size)_var(--beam-size),linear-gradient(90deg,_var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_50%_/var(--beam-size)_var(--beam-size)] [container-type:inline-size] [height:100cqmax] [transform-origin:50%_0%] [transform:rotateX(-90deg)] [width:100cqi]">
-          {topBeams.map((beam, index) => (
+          {topBeamsWithProps.map((beam, index) => (
             <Beam
               key={`top-${index}`}
               width={`${beamSize}%`}
               x={`${beam.x * beamSize}%`}
               delay={beam.delay}
               duration={beamDuration}
-              color={palette[Math.floor(Math.random() * palette.length)]}
+              color={beam.color}
+              aspectRatio={beam.aspectRatio}
             />
           ))}
         </div>
         {/* bottom side */}
         <div className="absolute top-full [transform-style:preserve-3d] [background-size:var(--beam-size)_var(--beam-size)] [background:linear-gradient(var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_-0.5px_/var(--beam-size)_var(--beam-size),linear-gradient(90deg,_var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_50%_/var(--beam-size)_var(--beam-size)] [container-type:inline-size] [height:100cqmax] [transform-origin:50%_0%] [transform:rotateX(-90deg)] [width:100cqi]">
-          {bottomBeams.map((beam, index) => (
+          {bottomBeamsWithProps.map((beam, index) => (
             <Beam
               key={`bottom-${index}`}
               width={`${beamSize}%`}
               x={`${beam.x * beamSize}%`}
               delay={beam.delay}
               duration={beamDuration}
-              color={palette[Math.floor(Math.random() * palette.length)]}
+              color={beam.color}
+              aspectRatio={beam.aspectRatio}
             />
           ))}
         </div>
         {/* left side */}
         <div className="absolute left-0 top-0 [transform-style:preserve-3d] [background-size:var(--beam-size)_var(--beam-size)] [background:linear-gradient(var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_-0.5px_/var(--beam-size)_var(--beam-size),linear-gradient(90deg,_var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_50%_/var(--beam-size)_var(--beam-size)] [container-type:inline-size] [height:100cqmax] [transform-origin:0%_0%] [transform:rotate(90deg)_rotateX(-90deg)] [width:100cqh]">
-          {leftBeams.map((beam, index) => (
+          {leftBeamsWithProps.map((beam, index) => (
             <Beam
               key={`left-${index}`}
               width={`${beamSize}%`}
               x={`${beam.x * beamSize}%`}
               delay={beam.delay}
               duration={beamDuration}
-              color={palette[Math.floor(Math.random() * palette.length)]}
+              color={beam.color}
+              aspectRatio={beam.aspectRatio}
             />
           ))}
         </div>
         {/* right side */}
         <div className="absolute right-0 top-0 [transform-style:preserve-3d] [background-size:var(--beam-size)_var(--beam-size)] [background:linear-gradient(var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_-0.5px_/var(--beam-size)_var(--beam-size),linear-gradient(90deg,_var(--grid-color)_0_1px,_transparent_1px_var(--beam-size))_50%_50%_/var(--beam-size)_var(--beam-size)] [container-type:inline-size] [height:100cqmax] [width:100cqh] [transform-origin:100%_0%] [transform:rotate(-90deg)_rotateX(-90deg)]">
-          {rightBeams.map((beam, index) => (
+          {rightBeamsWithProps.map((beam, index) => (
             <Beam
               key={`right-${index}`}
               width={`${beamSize}%`}
               x={`${beam.x * beamSize}%`}
               delay={beam.delay}
               duration={beamDuration}
-              color={palette[Math.floor(Math.random() * palette.length)]}
+              color={beam.color}
+              aspectRatio={beam.aspectRatio}
             />
           ))}
         </div>

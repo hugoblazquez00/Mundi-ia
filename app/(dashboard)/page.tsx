@@ -216,24 +216,24 @@ export default function HomePage() {
                         <CardTitle className="text-2xl text-gray-900">Starter</CardTitle>
                         <CardDescription className="text-gray-600">Perfect for small businesses</CardDescription>
                         <div className="mt-4">
-                          <span className="text-4xl font-bold">$49</span>
+                          <span className="text-4xl font-bold">€50</span>
                           <span className="text-muted-foreground">/month</span>
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Up to 100 bookings/month</span>
+                          <span className="text-sm text-gray-600">150 minutes of AI calls included</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">AI phone agent</span>
+                          <span className="text-sm text-gray-600">AI-powered phone agent 24/7</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">WhatsApp integration</span>
+                          <span className="text-sm text-gray-600">Email confirmations</span>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 mb-14">
                           <Check className="h-4 w-4 text-pink-d100b9" />
                           <span className="text-sm text-gray-600">Basic dashboard</span>
                         </div>
@@ -250,75 +250,87 @@ export default function HomePage() {
                       </div>
                       <CardHeader className="text-center">
                         <CardTitle className="text-2xl text-gray-900">Pro</CardTitle>
-                        <CardDescription className="text-gray-600">For growing restaurants & salons</CardDescription>
+                        <CardDescription className="text-gray-600">For busy establishments</CardDescription>
                         <div className="mt-4">
-                          <span className="text-4xl font-bold">$99</span>
+                          <span className="text-4xl font-bold">€100</span>
                           <span className="text-muted-foreground">/month</span>
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Up to 500 bookings/month</span>
+                          <span className="text-sm text-gray-600">400 minutes of AI calls included</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Advanced AI features</span>
+                          <span className="text-sm text-gray-600">AI-powered phone agent 24/7</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Full dashboard & analytics</span>
+                          <span className="text-sm text-gray-600">Email confirmations</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Customer preferences tracking</span>
+                          <span className="text-sm text-gray-600">WhatsApp basic automation</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Priority support</span>
+                          <span className="text-sm text-gray-600">Full analytics dashboard</span>
                         </div>
-                        <Button className="w-full mt-6 bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0]  text-white hover:border hover:border-[#FF00E0] border-0 rounded-full shadow-lg hover:shadow-pink-d100b9/30 transition-all duration-300 font-medium">
+                        <Button className="mb-14 w-full mt-6 bg-[#FF00E0] hover:bg-[#FFE6FC] hover:text-[#FF00E0] text-white hover:border hover:border-[#FF00E0] border-0 rounded-full shadow-lg">
                           Start Free Trial
                         </Button>
                       </CardContent>
                     </Card>
 
-                    {/* Business Plan */}
+                    {/* Premium Plan */}
                     <Card className="relative bg-white/50 backdrop-blur-sm border-pink-d100b9/10">
                       <CardHeader className="text-center">
-                        <CardTitle className="text-2xl text-gray-900">Business</CardTitle>
-                        <CardDescription className="text-gray-600">For multi-location businesses</CardDescription>
+                        <CardTitle className="text-2xl text-gray-900">Premium</CardTitle>
+                        <CardDescription className="text-gray-600">For high-volume establishments</CardDescription>
                         <div className="mt-4">
-                          <span className="text-4xl font-bold">$199</span>
+                          <span className="text-4xl font-bold">€200</span>
                           <span className="text-muted-foreground">/month</span>
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Unlimited bookings</span>
+                          <span className="text-sm text-gray-600">900 minutes of AI calls included</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Multi-location management</span>
+                          <span className="text-sm text-gray-600">AI trained on your business</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Custom AI training</span>
+                          <span className="text-sm text-gray-600">Email confirmations</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Check className="h-4 w-4 text-pink-d100b9" />
+                          <span className="text-sm text-gray-600">WhatsApp advanced automation</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <Check className="h-4 w-4 text-pink-d100b9" />
                           <span className="text-sm text-gray-600">Advanced reporting</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <Check className="h-4 w-4 text-pink-d100b9" />
-                          <span className="text-sm text-gray-600">Dedicated account manager</span>
-                        </div>
                         <Button className="w-full mt-6 bg-transparent" variant="outline">
-                          Contact Sales
+                          Start Free Trial
                         </Button>
                       </CardContent>
                     </Card>
+
+                  </div>
+
+                  {/* Custom Plan CTA */}
+                  <div className="text-center mt-16">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Custom Enterprise Plan</h3>
+                    <p className="text-gray-600 mb-6">For chains, franchises, or businesses requiring tailored solutions</p>
+                    <Link href="/contact">
+                      <Button className="px-8 py-3 bg-[#FF00E0] text-white rounded-full hover:bg-[#FFE6FC] hover:text-[#FF00E0] hover:border hover:border-[#FF00E0] transition-all">
+                        Contact Us
+                      </Button>
+                    </Link>
                   </div>
                 </section>
               </Card>

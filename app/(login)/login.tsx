@@ -12,6 +12,12 @@ import { Loader2, ArrowLeft } from "lucide-react"
 import { signIn, signUp } from "./actions"
 import type { ActionState } from "@/lib/auth/middleware"
 import { RetroGrid } from "@/components/ui/retro-grid"
+import { createClient } from "@supabase/supabase-js"
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
   const searchParams = useSearchParams()
@@ -134,6 +140,35 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                   </Button>
                 </div>
               </form>
+
+              <div className="mt-4">
+                <Button
+                  type="button"
+                  className="w-full bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 rounded-2xl"
+                  onClick={async () => {
+                    const params = new URLSearchParams()
+                    if (redirect) params.set('redirect', redirect)
+                    if (priceId) params.set('priceId', priceId)
+                    if (inviteId) params.set('inviteId', inviteId)
+                    
+                    // IMPORTANTE: Usar la página cliente como fallback si Supabase usa hash
+                    const redirectUrl = `${window.location.origin}/auth/callback${
+                      params.toString() ? `?${params.toString()}` : ''
+                    }`
+                    
+                    console.log('Iniciando OAuth con redirectTo:', redirectUrl)
+                    
+                    await supabase.auth.signInWithOAuth({
+                      provider: "google",
+                      options: {
+                        redirectTo: redirectUrl,
+                      },
+                    })
+                  }}
+                >
+                  Continue with Google
+                </Button>
+              </div>
 
               <div className="mt-8">
                 <div className="relative">
