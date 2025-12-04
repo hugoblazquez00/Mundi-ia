@@ -21,6 +21,113 @@ import { useState, useEffect } from "react"
 import Link from 'next/link';
 import { WarpBackground } from "@/components/ui/warp-background";
 
+type Business = {
+  id: number
+  name: string
+}
+
+function BusinessSwitcher({
+  businesses,
+  selectedBusinessId,
+  onSelect,
+}: {
+  businesses: Business[]
+  selectedBusinessId: number | null
+  onSelect: (id: number) => void
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null)
+  const current = businesses.find((b) => b.id === selectedBusinessId) ?? businesses[0]
+
+  const handleMouseEnter = () => {
+    // Cancelar cualquier timeout de cierre pendiente
+    if (closeTimeout) {
+      clearTimeout(closeTimeout)
+      setCloseTimeout(null)
+    }
+    setIsOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    // Esperar un poco antes de cerrar para permitir clicks
+    const timeout = setTimeout(() => {
+      setIsOpen(false)
+    }, 200) // 200ms de delay
+    setCloseTimeout(timeout)
+  }
+
+  const handleItemClick = (id: number) => {
+    onSelect(id)
+    // No cerrar inmediatamente, dejar que el usuario vea la selección
+    // Se cerrará cuando el mouse salga
+  }
+
+  // Limpiar timeout al desmontar
+  useEffect(() => {
+    return () => {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout)
+      }
+    }
+  }, [closeTimeout])
+
+  return (
+    <div 
+      className="relative inline-block text-left"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center gap-2 rounded-full border border-[#FF00E0]/30 bg-white/10 px-3 py-1 text-xs text-[#FF00E0] shadow-[0_0_30px_#FF00E0]/20 hover:bg-white/20 transition-all duration-200"
+      >
+        <span className="h-2 w-2 rounded-full bg-[#FF00E0]" />
+        <span>{current?.name ?? "Select business"}</span>
+        <svg 
+          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      
+      {isOpen && businesses.length > 0 && (
+        <div className="absolute mt-2 w-56 rounded-xl bg-white shadow-xl border border-[#FF00E0]/20 z-50 overflow-hidden">
+          <ul className="max-h-60 overflow-y-auto py-1">
+            {businesses.map((b) => (
+              <li key={b.id}>
+                <button
+                  type="button"
+                  onClick={() => handleItemClick(b.id)}
+                  onMouseEnter={() => {
+                    // Cancelar cierre cuando el mouse entra en un item
+                    if (closeTimeout) {
+                      clearTimeout(closeTimeout)
+                      setCloseTimeout(null)
+                    }
+                  }}
+                  className={`w-full text-left px-4 py-2.5 hover:bg-[#FFE6FC] transition-colors duration-150 flex items-center gap-2 ${
+                    b.id === selectedBusinessId 
+                      ? "bg-[#FFE6FC] font-semibold text-[#FF00E0]" 
+                      : "text-gray-700"
+                  }`}
+                >
+                  {b.id === selectedBusinessId && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#FF00E0]" />
+                  )}
+                  <span>{b.name}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+}
 
 function QuickActionsCard() {
   return (
@@ -188,26 +295,29 @@ function MessagesCenterCard() {
   )
 }
 
-function UpcomingBookingsCard() {
+function UpcomingBookingsCard({ businessId }: { businessId: number | null }) {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!businessId) {
+      setBookings([]);
+      setLoading(false);
+      return;
+    }
+
     const fetchReservations = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/reservations?businessId=1');
-        
+        const response = await fetch(`/api/reservations?businessId=${businessId}`);
         if (!response.ok) {
           throw new Error('Error al cargar las reservas');
         }
-
         const data = await response.json();
-        
-        // Filtrar solo las reservas pendientes y confirmadas, y ordenar por fecha y hora
+        // ... mismo procesamiento que ya tenías ...
         const upcomingReservations = data
-          .filter((reservation: any) => 
+          .filter((reservation: any) =>
             reservation.status === 'pending' || reservation.status === 'confirmed'
           )
           .map((reservation: any) => ({
@@ -220,7 +330,6 @@ function UpcomingBookingsCard() {
             status: reservation.status === 'confirmed' ? 'Confirmed' : 'Pending',
           }))
           .sort((a: any, b: any) => {
-            // Ordenar por fecha y hora
             const dateA = new Date(`${a.date}T${a.time}`);
             const dateB = new Date(`${b.date}T${b.time}`);
             return dateA.getTime() - dateB.getTime();
@@ -236,17 +345,10 @@ function UpcomingBookingsCard() {
       }
     };
 
-    // Cargar inmediatamente
     fetchReservations();
-
-    // Actualizar cada 5 segundos
-    const interval = setInterval(() => {
-      fetchReservations();
-    }, 5000);
-
-    // Limpiar el interval al desmontar el componente
+    const interval = setInterval(fetchReservations, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [businessId]);
 
   return (
     <Card className="h-[44rem] bg-white/10 backdrop-blur-3xl border border-[#FFB8F7] shadow-2xl shadow-[#FFB8F7]">
@@ -257,19 +359,27 @@ function UpcomingBookingsCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="h-[35rem] overflow-hidden">
-        {loading && bookings.length === 0 ? (
+        {!businessId ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-muted-foreground">Selecciona un negocio para ver sus reservas</div>
+          </div>
+        ) : loading && bookings.length === 0 ? (
+          // ... existing "Cargando reservas..." ...
           <div className="flex items-center justify-center h-full">
             <div className="text-muted-foreground">Cargando reservas...</div>
           </div>
         ) : error ? (
+          // ... existing error ...
           <div className="flex items-center justify-center h-full">
             <div className="text-red-500">Error: {error}</div>
           </div>
         ) : bookings.length === 0 ? (
+          // ... existing "No hay reservas próximas" ...
           <div className="flex items-center justify-center h-full">
             <div className="text-muted-foreground">No hay reservas próximas</div>
           </div>
         ) : (
+          // ... existing listado de bookings ...
           <div className="h-full overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#FF00E0]/30 scrollbar-track-transparent">
             <div className="space-y-3">
               {bookings.map((booking) => (
@@ -414,66 +524,95 @@ function Header() {
 }
 
 export default function DashboardPage() {
-  return (
-    
-    <section className="relative m-2">
-        <Header/>
-        <WarpBackground
-          beamDuration={8}
-          beamDelayMin={1}
-          beamDelayMax={4}
-          perspective={100}
-          beamColors={["#9D00FF", "#0062FF", "#FF00E1", "#6D1D60"]}
-        >
-            <div className=" ">
-              {/* Welcome header */}
-              <div className="px-2 lg:px-0 mb-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#FF00E0]/30 bg-white/10 px-3 py-1 text-xs text-[#FF00E0] shadow-[0_0_30px_#FF00E0]/20">
-                  <span className="h-2 w-2 rounded-full bg-[#FF00E0]"></span>
-                  <span>Dashboard</span>
-                </div>
-                <h1 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#FF00E0] via-[#9D00FF] to-[#0062FF]">
-                  Welcome Andy
-                </h1>
-                <p className="mt-2 text-sm sm:text-base text-muted-foreground">
-                  Here’s what’s happening today across your bookings and messages.
-                </p>
-              </div>
-              {/* Full-width grid with no outer gaps */}
-            <div className="grid grid-cols-12 gap-4 grid-rows- lg:gap-6 px-0 w-full">
-              {/* Quick Actions - full width */}
-              <div className="col-span-12">
-                <QuickActionsCard />
-              </div>
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [selectedBusinessId, setSelectedBusinessId] = useState<number | null>(null);
+  const [businessesLoading, setBusinessesLoading] = useState(true);
 
-              {/* Row: Left (Notifications + Messages stacked) | Right (UpcomingBookings full height) */}
-              <div className="col-span-12 grid grid-cols-12 gap-4 lg:gap-6">
-                <div className="col-span-12 lg:col-span-6 space-y-4 lg:space-y-6">
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      try {
+        const res = await fetch('/api/businesses');
+        if (!res.ok) {
+          throw new Error('Error al cargar los negocios');
+        }
+        const data = await res.json();
+        setBusinesses(data);
+        if (data.length > 0 && !selectedBusinessId) {
+          setSelectedBusinessId(data[0].id);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setBusinessesLoading(false);
+      }
+    };
+
+    fetchBusinesses();
+  }, [selectedBusinessId]);
+
+  return (
+    <section className="relative m-2">
+      <Header/>
+      <WarpBackground
+        beamDuration={8}
+        beamDelayMin={1}
+        beamDelayMax={4}
+        perspective={100}
+        beamColors={["#9D00FF", "#0062FF", "#FF00E1", "#6D1D60"]}
+      >
+        <div className=" ">
+          {/* Welcome header */}
+          <div className="px-2 lg:px-0 mb-6">
+            {businessesLoading || businesses.length === 0 ? (
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#FF00E0]/30 bg-white/10 px-3 py-1 text-xs text-[#FF00E0] shadow-[0_0_30px_#FF00E0]/20">
+                <span className="h-2 w-2 rounded-full bg-[#FF00E0]" />
+                <span>Dashboard</span>
+              </div>
+            ) : (
+              <BusinessSwitcher
+                businesses={businesses}
+                selectedBusinessId={selectedBusinessId}
+                onSelect={(id) => setSelectedBusinessId(id)}
+              />
+            )}
+            <h1 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#FF00E0] via-[#9D00FF] to-[#0062FF]">
+              Welcome Andy
+            </h1>
+            <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+              Here's what's happening today across your bookings and messages.
+            </p>
+          </div>
+          {/* Full-width grid with no outer gaps */}
+          <div className="grid grid-cols-12 gap-4 lg:gap-6 px-0 w-full">
+            {/* Quick Actions - full width */}
+            <div className="col-span-12">
+              <QuickActionsCard />
+            </div>
+
+            {/* Row: Left (Notifications + Messages stacked) | Right (UpcomingBookings full height) */}
+            <div className="col-span-12 grid grid-cols-12 gap-4 lg:gap-6">
+              <div className="col-span-12 lg:col-span-6 space-y-4 lg:space-y-6">
                 <NotificationsCard />
                 <MessagesCenterCard />
-                </div>
-                <div className="col-span-12 lg:col-span-6 ">
-                <UpcomingBookingsCard />
-                </div>
               </div>
+              <div className="col-span-12 lg:col-span-6 ">
+                <UpcomingBookingsCard businessId={selectedBusinessId} />
+              </div>
+            </div>
             
-              {/* Overview (DailyOverview) - full width */}
-              <div className="col-span-12">
-                <DailyOverviewCard />
-              </div>
+            {/* Overview (DailyOverview) - full width */}
+            <div className="col-span-12">
+              <DailyOverviewCard />
+            </div>
 
-              {/* Analytics Summary - full width */}
-              <div className="col-span-12">
-                <AnalyticsSummaryCard />
-              </div>
-            </div> 
-              
-        
-          </div>
-
-        </WarpBackground>
-      
-      
+            {/* Analytics Summary - full width */}
+            <div className="col-span-12">
+              <AnalyticsSummaryCard />
+            </div>
+          </div> 
+          
+        </div>
+      </WarpBackground>
     </section>
   )
 }

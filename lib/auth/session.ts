@@ -50,10 +50,13 @@ export async function setSession(user: NewUser) {
     expires: expiresInOneDay.toISOString(),
   };
   const encryptedSession = await signToken(session);
+  
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   (await cookies()).set('session', encryptedSession, {
     expires: expiresInOneDay,
     httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
+    secure: isProduction, // Solo en producción (HTTPS)
+    sameSite: 'lax', // Funciona mejor en Safari que 'strict'
   });
 }
