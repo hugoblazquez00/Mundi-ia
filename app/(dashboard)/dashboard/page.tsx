@@ -17,7 +17,7 @@ import {
   Edit,
   X,
 } from "lucide-react"
-
+import { useState, useEffect } from "react"
 import Link from 'next/link';
 import { WarpBackground } from "@/components/ui/warp-background";
 
@@ -189,59 +189,131 @@ function MessagesCenterCard() {
 }
 
 function UpcomingBookingsCard() {
-  const bookings = [
-    { id: 1, time: "7:00 PM", customer: "Johnson Family", guests: 4, table: "Table 5", status: "Confirmed" },
-    { id: 2, time: "7:30 PM", customer: "Maria Garcia", guests: 2, table: "Table 2", status: "Confirmed" },
-    { id: 3, time: "8:00 PM", customer: "David Smith", guests: 6, table: "Table 8", status: "Pending" },
-    { id: 4, time: "8:30 PM", customer: "Sarah Wilson", guests: 3, table: "Table 3", status: "Confirmed" },
-    { id: 5, time: "9:00 PM", customer: "Mike Brown", guests: 2, table: "Table 1", status: "Confirmed" },
-    { id: 6, time: "9:30 PM", customer: "Lisa Davis", guests: 4, table: "Table 6", status: "Confirmed" },
-    { id: 7, time: "10:00 PM", customer: "Tom Wilson", guests: 2, table: "Table 4", status: "Pending" },
-    { id: 8, time: "10:30 PM", customer: "Anna Lee", guests: 5, table: "Table 9", status: "Confirmed" },
-    { id: 9, time: "11:00 PM", customer: "Chris Martin", guests: 3, table: "Table 7", status: "Confirmed" },
-    { id: 10, time: "11:30 PM", customer: "Emma Stone", guests: 2, table: "Table 10", status: "Pending" },
-  ]
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/reservations?businessId=1');
+        
+        if (!response.ok) {
+          throw new Error('Error al cargar las reservas');
+        }
+
+        const data = await response.json();
+        
+        // Filtrar solo las reservas pendientes y confirmadas, y ordenar por fecha y hora
+        const upcomingReservations = data
+          .filter((reservation: any) => 
+            reservation.status === 'pending' || reservation.status === 'confirmed'
+          )
+          .map((reservation: any) => ({
+            id: reservation.id,
+            date: reservation.date,
+            time: reservation.time,
+            customer: reservation.customerName || 'Cliente',
+            guests: reservation.partySize,
+            phone: reservation.customerPhone,
+            status: reservation.status === 'confirmed' ? 'Confirmed' : 'Pending',
+          }))
+          .sort((a: any, b: any) => {
+            // Ordenar por fecha y hora
+            const dateA = new Date(`${a.date}T${a.time}`);
+            const dateB = new Date(`${b.date}T${b.time}`);
+            return dateA.getTime() - dateB.getTime();
+          });
+
+        setBookings(upcomingReservations);
+        setError(null);
+      } catch (err: any) {
+        console.error('Error fetching reservations:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Cargar inmediatamente
+    fetchReservations();
+
+    // Actualizar cada 5 segundos
+    const interval = setInterval(() => {
+      fetchReservations();
+    }, 5000);
+
+    // Limpiar el interval al desmontar el componente
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Card className="h-[44rem] bg-white/10 backdrop-blur-3xl border border-[#FFB8F7] shadow-2xl shadow-[#FFB8F7]">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-foreground">
-        <Calendar className="h-10 w-5 text-[#FF00E0]" />
+          <Calendar className="h-10 w-5 text-[#FF00E0]" />
           Upcoming Bookings
         </CardTitle>
       </CardHeader>
       <CardContent className="h-[35rem] overflow-hidden">
-        <div className="h-full overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#FF00E0]/30 scrollbar-track-transparent">
-          <div className="space-y-3">
-            {bookings.map((booking) => (
-              <div
-                key={booking.id}
-                className="flex items-center justify-between p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all duration-300"
-              >
-                <div className="flex-1">
-                  <div className="flex items-center gap-4">
-                    <div className="text-sm font-medium text-[#FF00E0]">{booking.time}</div>
-                    <div className="text-sm text-foreground">{booking.customer}</div>
-                  </div>
-                  <div className="flex items-center gap-4 mt-1">
-                    <div className="text-xs text-muted-foreground">{booking.guests} guests</div>
-                    <div className="text-xs text-muted-foreground">{booking.table}</div>
-                  </div>
-                </div>
-                <Badge
-                  variant={booking.status === "Confirmed" ? "default" : "secondary"}
-                  className={
-                    booking.status === "Confirmed"
-                      ? "bg-[#E6FFE8] text-[#00D118] border-[#00FF1E]"
-                      : "bg-[#FFE4B8] text-[#D18100] border-[#FFAF2E]"
-                  }
-                >
-                  {booking.status}
-                </Badge>
-              </div>
-            ))}
+        {loading && bookings.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-muted-foreground">Cargando reservas...</div>
           </div>
-        </div>
+        ) : error ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-red-500">Error: {error}</div>
+          </div>
+        ) : bookings.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-muted-foreground">No hay reservas próximas</div>
+          </div>
+        ) : (
+          <div className="h-full overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#FF00E0]/30 scrollbar-track-transparent">
+            <div className="space-y-3">
+              {bookings.map((booking) => (
+                <div
+                  key={booking.id}
+                  className="flex items-center justify-between p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all duration-300"
+                >
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4">
+                      <div className="text-sm font-medium text-[#FF00E0]">
+                        {booking.time}
+                      </div>
+                      <div className="text-sm text-foreground">{booking.customer}</div>
+                    </div>
+                    <div className="flex items-center gap-4 mt-1">
+                      <div className="text-xs text-muted-foreground">
+                        {booking.guests} {booking.guests === 1 ? 'persona' : 'personas'}
+                      </div>
+                      {booking.date && (
+                        <div className="text-xs text-muted-foreground">
+                          {new Date(booking.date).toLocaleDateString('es-ES', {
+                            weekday: 'short',
+                            day: 'numeric',
+                            month: 'short'
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <Badge
+                    variant={booking.status === "Confirmed" ? "default" : "secondary"}
+                    className={
+                      booking.status === "Confirmed"
+                        ? "bg-[#E6FFE8] text-[#00D118] border-[#00FF1E]"
+                        : "bg-[#FFE4B8] text-[#D18100] border-[#FFAF2E]"
+                    }
+                  >
+                    {booking.status}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   )

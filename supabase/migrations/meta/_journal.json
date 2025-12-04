@@ -8,6 +8,27 @@
       "when": 1758710688378,
       "tag": "0000_nappy_shockwave",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1764782672903,
+      "tag": "0001_large_exodus",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764786852880,
+      "tag": "0002_confused_terror",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1764789268183,
+      "tag": "0003_friendly_speedball",
+      "breakpoints": true
     }
   ]
 }
