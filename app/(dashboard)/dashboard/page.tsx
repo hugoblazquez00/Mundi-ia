@@ -527,7 +527,29 @@ export default function DashboardPage() {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [selectedBusinessId, setSelectedBusinessId] = useState<number | null>(null);
   const [businessesLoading, setBusinessesLoading] = useState(true);
+  const [user, setUser] = useState<{ name: string | null; email: string } | null>(null);
+  const [userLoading, setUserLoading] = useState(true);
 
+  // Obtener datos del usuario
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch('/api/user');
+        if (res.ok) {
+          const userData = await res.json();
+          setUser(userData);
+        }
+      } catch (e) {
+        console.error('Error fetching user:', e);
+      } finally {
+        setUserLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  // Obtener businesses
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
@@ -549,6 +571,9 @@ export default function DashboardPage() {
 
     fetchBusinesses();
   }, [selectedBusinessId]);
+
+  // Determinar el nombre a mostrar
+  const displayName = user?.name || user?.email?.split('@')[0] || 'there';
 
   return (
     <section className="relative m-2">
@@ -575,8 +600,8 @@ export default function DashboardPage() {
                 onSelect={(id) => setSelectedBusinessId(id)}
               />
             )}
-            <h1 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#FF00E0] via-[#9D00FF] to-[#0062FF]">
-              Welcome Andy
+            <h1 className="mt-3 pb-6 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#FF00E0] via-[#9D00FF] to-[#0062FF]">
+              {userLoading ? 'Loading...' : `Welcome ${displayName}`}
             </h1>
             <p className="mt-2 text-sm sm:text-base text-muted-foreground">
               Here's what's happening today across your bookings and messages.
