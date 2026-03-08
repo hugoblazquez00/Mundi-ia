@@ -38,26 +38,29 @@ export async function POST(req: Request) {
     console.log(`Payload:`, payload);
 
     // Enviar comandos a Telnyx Call Control
-    const sendTelnyx = async (command: any) => {
+    const sendTelnyx = async (action: string, body?: any) => {
       if (!callControlId) {
         console.error("No call_control_id disponible para enviar comando");
         return;
       }
       
       try {
-        console.log(`Enviando comando a Telnyx:`, command);
-        const response = await
-          fetch(
-            `https://api.telnyx.com/v2/calls/${callControlId}/actions/${command.command}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.TELNYX_API_KEY}`,
-            },
-            body: JSON.stringify(command),
-          }
-        );
+        console.log(`Enviando comando a Telnyx:`, { action, body });
+        const url = `https://api.telnyx.com/v2/calls/${callControlId}/actions/${action}`;
+        const options: any = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.TELNYX_API_KEY}`,
+          },
+        };
+
+        // No todos los comandos requieren cuerpo (por ejemplo, "answer")
+        if (body && Object.keys(body).length > 0) {
+          options.body = JSON.stringify(body);
+        }
+
+        const response = await fetch(url, options);
         
         if (!response.ok) {
           const errorText = await response.text();
@@ -75,9 +78,7 @@ export async function POST(req: Request) {
     if (eventType === "call.initiated") {
       console.log("📞 Llamada iniciada");
       if (callControlId) {
-        await sendTelnyx({ 
-          command: "answer"
-        });
+        await sendTelnyx("answer");
       } else {
         console.error("❌ call.initiated sin call_control_id");
       }
@@ -86,13 +87,13 @@ export async function POST(req: Request) {
     if (eventType === "call.answered") {
       console.log("✅ Llamada contestada");
       if (callControlId) {
-        await sendTelnyx({
-          command: "speak",
-          payload: {
-            text: "Hola, tu llamada ha llegado correctamente a Mundi A I.",
-            voice: "female",
-          },
+        await sendTelnyx("speak", {
+          payload: "Hola, tu llamada ha llegado correctamente a Mundi A I.",
+          voice: "female",
+          language: "es-ES",
         });
+      } else {
+        console.error("❌ call.answered sin call_control_id");
       }
     }
 
