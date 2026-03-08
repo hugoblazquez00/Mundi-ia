@@ -46,8 +46,9 @@ export async function POST(req: Request) {
       
       try {
         console.log(`Enviando comando a Telnyx:`, command);
-        const response = await fetch(
-          `https://api.telnyx.com/v2/calls/${callControlId}/actions`,
+        const response = await
+          fetch(
+            `https://api.telnyx.com/v2/calls/${callControlId}/actions/${command.command}`,
           {
             method: "POST",
             headers: {
